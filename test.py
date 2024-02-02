@@ -1,5 +1,6 @@
 import os
 import time
+from dotenv import load_dotenv
 
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationSummaryBufferMemory
@@ -10,10 +11,10 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 
-os.environ["OPENAI_API_KEY"] = ""
 
-loader = DirectoryLoader(".", glob="*.txt")
-documents = loader.load()
+load_dotenv()
+
+documents = DirectoryLoader(".", glob="*.txt").load()
 text_splitter = CharacterTextSplitter(chunk_size=85, chunk_overlap=0)
 texts = text_splitter.split_documents(documents)
 embeddings = OpenAIEmbeddings()
@@ -32,7 +33,7 @@ PROMPT = PromptTemplate(
 
 llm = ChatOpenAI(
     temperature=0.0,
-    openai_api_key=os.environ["OPENAI_API_KEY"]
+    openai_api_key=os.getenv('OPENAI_API_KEY')
 )
 
 memory = ConversationSummaryBufferMemory(
