@@ -67,11 +67,6 @@ chain = ConversationalRetrievalChain.from_llm(
 # )
 
 
-def timer(callback, seconds):
-    time.sleep(seconds)
-    callback()
-
-
 def ask(question: str, chain, sleep_seconds: int = 0):
     if sleep_seconds:
         time.sleep(sleep_seconds)
