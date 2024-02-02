@@ -54,7 +54,8 @@ chain = ConversationalRetrievalChain.from_llm(
     retriever=retriever,
     return_source_documents=True,
     get_chat_history=lambda h: h,
-    verbose=False)
+    verbose=False
+)
 
 # qa_with_source = RetrievalQA.from_chain_type(
 #     llm=llm,
@@ -71,28 +72,21 @@ def timer(callback, seconds):
     callback()
 
 
-def first_prompt():
-    response = chain({"question": "Sum the amount of transactions"})
-    print(f"{response['chat_history']}\n")
-
-def second_prompt():
-    response = chain({"question": "Explain me how do you made this sum step by step"})
-    print(f"{response['chat_history']}\n")
-
-
-def third_prompt():
-    response = chain({"question": "Get the most recent transaction"})
-    print(f"{response['chat_history']}\n")
+def ask(question: str, chain, sleep_seconds: int = 0):
+    if sleep_seconds:
+        time.sleep(sleep_seconds)
+    answer = chain({"question": question})["answer"]
+    print(answer)
+    return answer
 
 
-def forth_prompt():
-    response = chain({"question": "Remember my latest 2 questions"})
-    print(f"{response['chat_history']}\n")
+ask("Sum the amount of transactions", chain, sleep=3)
+ask("Explain me how do you made this sum step by step", chain, sleep=5)
+ask("Get the most recent transaction", chain, sleep=5)
+ask("Remember my latest 2 questions", chain, sleep=5)
+print(chain['chat_history'])
 
 
-timer(first_prompt, 3)
-timer(second_prompt, 5)
-timer(third_prompt, 5)
 # client = chromadb.PersistentClient(path="/db")
 #
 # if(client.get_collection("transactions_docs")== null) :
