@@ -10,7 +10,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 
 loader = DirectoryLoader(".", glob="*.txt")
 documents = loader.load()
